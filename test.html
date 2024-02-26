@@ -1,0 +1,751 @@
+
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+
+
+
+
+
+<meta charset="utf-8">
+<meta http-equiv="x-dns-prefetch-control" content="on">
+<link rel="dns-prefetch" href="https://game.granbluefantasy.jp/">
+<link rel="dns-prefetch" href="https://prd-game-a-granbluefantasy.akamaized.net/">
+<link rel="dns-prefetch" href="https://prd-game-a1-granbluefantasy.akamaized.net/">
+<link rel="dns-prefetch" href="https://prd-game-a2-granbluefantasy.akamaized.net/">
+<link rel="dns-prefetch" href="https://prd-game-a3-granbluefantasy.akamaized.net/">
+<link rel="dns-prefetch" href="https://prd-game-a4-granbluefantasy.akamaized.net/">
+<link rel="dns-prefetch" href="https://prd-game-a5-granbluefantasy.akamaized.net/">
+<meta http-equiv="Content-Script-type" content="text/javascript">
+<meta http-equiv="Content-Style-type" content="text/css">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="-1">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-title" content="グラブル">
+<script src="https://prd-game-a3-granbluefantasy.akamaized.net/assets/1708586161/js/lib/core-js-bundle@3.29.1/minified.js"></script>
+<script src="https://cdn-connect.mobage.jp/jssdk/mobage-menubar.2.6.1.min.js"></script>
+<title>グランブルーファンタジー</title>
+<link rel="apple-touch-icon-precomposed" href="https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/touch_icon.png">
+<style class="init">
+#loading, #ready {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	right: 0px;
+	bottom: -2000px;
+	z-index: 250000;
+}
+</style>
+
+<script>
+(function(){
+	window.displayInitialize = function() {
+		var deviceRatio = window.innerWidth / 320;
+
+									deviceRatio = 2;
+					
+		return deviceRatio;
+	};
+	
+	var Game = {};
+	Game.version = "1708586161";
+
+	Game.controller = '';
+	Game.baseUri    = 'https://game.granbluefantasy.jp/';
+	Game.imgUri     = 'https://prd-game-a1-granbluefantasy.akamaized.net/assets/img';
+	Game.cssUri     = 'https://prd-game-a2-granbluefantasy.akamaized.net/assets/1708586161/css';
+	Game.jsUri      = 'https://prd-game-a3-granbluefantasy.akamaized.net/assets/1708586161/js';
+	Game.fontUri    = 'https://prd-game-a4-granbluefantasy.akamaized.net/assets/font';
+	Game.soundUri   = 'https://prd-game-a5-granbluefantasy.akamaized.net/assets/sound';
+
+	Game.modifiedListUri = 'https://prd-game-a-granbluefantasy.akamaized.net/assets/resources/native/modified_list.txt?mtime=1526365606';
+
+	Game.actualPexWidth = 640;
+
+	Game.userId = 21548357;
+
+	Game.isSandbox = 0;
+
+	Game.view = Game.loading = null;
+
+	Game.cjsScale = 1;
+
+	Game.lang = 'ja';
+
+	Game.message = {
+		update: '新しいバージョンがあります。更新します。',
+		appUpdate: 'アプリケーションに\n新しいバージョンがあります。\n\n更新して再起動してください。',
+		error: '予期せぬエラーが発生しました。',
+		connectionError: '通信エラーが発生しました。'
+	};
+
+	Game.setting = {
+		sound_flag: 0,
+		bgm_mode: 2,
+		se_mode: 2,
+		voice_mode: 2,
+		bgm_volume: 100,
+		se_volume: 60,
+		voice_volume: 100,
+		dpi_mode: 2,
+		effect_mode: 1,
+		cjs_mode:  1 ,
+				rtn_mode:  1 ,
+		chat_mode:  2 ,
+		chat_stamp:  1 ,
+		chat_active_notice:  0 ,
+		chat_active_notice_onbattle:  0 ,
+		is_enable_pc_footer:  1 ,
+		is_enable_sp_footer:  0 ,
+		is_enable_pc_inactive_sound_play:  0 ,
+		mobage_fixwindowsize:  1 ,
+		mypage_bgm_mode:  0 ,
+		gree_client_id: "66421-7a5805d5.public"
+	};
+
+	
+	Game.hasTutorialMovie = 0;
+	
+	Game.userRank =  289 ;
+
+	Game.ajaxStatus = 200;
+
+	
+	Game.ua = {
+	isChromeApp: function() {
+		return false;
+	},
+	isAndApp: function() {
+		return false;
+	},
+	isJssdk: function(){
+		return true;
+	},
+	isMbga: function(){
+		return true;
+	},
+	isGree: function(){
+		return false;
+	},
+	isDMM: function(){
+		return false;
+	},
+	isYahoo: function(){
+		return false;
+	},
+	
+	isGreeLogin: function(){
+		return false;
+	},
+	isPcPlatform: function() {
+		return true;
+	},
+	isSPBrowser: function() {
+		return !!'';
+	},
+	
+	isJssdkSideMenu: function(){
+		return true;
+	},
+	isJssdkFooter: function() {
+		return true;
+	},
+	hasPcgamecontainerIrregularParent: function() {
+		return true;
+	},
+	platformName: function() {
+		return 'mobage';
+	},
+	influxId: function() {
+		return 0;
+	}
+};
+
+
+	
+	var THRESHOLD = {MAX: 150, MIN: 67};
+
+	
+	var ADJUST_VALUE = 67;
+
+	
+	Game.getAdjustZoomValue = function(regularValue){
+		
+		var screen = window.screen || {};
+
+		
+		var aspect = Math.round((screen.width / screen.height) * 100);
+
+		if(
+			Math.round((window.innerWidth / window.innerHeight) * 100) < ADJUST_VALUE 
+			|| aspect > THRESHOLD.MAX 
+			|| aspect < THRESHOLD.MIN 
+		){
+			return regularValue;
+		}
+
+		
+		return regularValue * ((window.innerHeight * (ADJUST_VALUE / 100)) / window.innerWidth);
+	};
+
+	Game.anenounceId = null;
+
+	Game.isShowLogoutPopup =  0 ;
+
+	Game.cfl = '{"\/quest\/create_quest":true,"\/shop\/purchase":true,"\/gacha\/normal\/play":true,"\/raid\/temporary_item_result":true}';
+
+	var commonStyle = Game.cssUri + "/common/index.css";
+	document.write('<link type="text/css" rel="stylesheet" href="' + commonStyle + '">');
+
+		var submenuStyle = Game.cssUri + "/submenu/index.css";
+	document.write('<link type="text/css" rel="stylesheet" href="' + submenuStyle + '">');
+	
+	window.Game = Game;
+
+	var displayInitializePromise = new Promise(function(resolve) {
+		window.startDisplayInitialize = resolve;  
+	}).then(function() {
+		
+		window.deviceRatio = window.displayInitialize();
+	});
+	var DOMContentLoadedPromise = new Promise(function(resolve) {
+		window.addEventListener('DOMContentLoaded', resolve);
+	});
+
+	
+	Promise.all([displayInitializePromise, DOMContentLoadedPromise])
+		.then(function() {
+							var html = document.getElementsByTagName('html')[0];
+									html = document.getElementById(Game.gameContainer.id);
+					
+					html.style.zoom = window.deviceRatio;
+
+					
+					html.parentNode.style.overflowX = 'hidden';
+					
+														});
+
+	
+	
+					
+	Game.gameContainer = {
+		id:             'mobage-game-container',
+		selector: '#' + 'mobage-game-container'
+	};
+
+	
+	Game.localstorageExtensions = {};
+			Game.localstorageExtensions['mobage'] = '_mbga';
+			Game.localstorageExtensions['facebook'] = '';
+			Game.localstorageExtensions['twitter'] = '';
+			Game.localstorageExtensions['gree'] = '_gree';
+			Game.localstorageExtensions['dmm'] = '_dmm';
+			Game.localstorageExtensions['yahoo'] = '_yahoo';
+			Game.localstorageExtensions['mobage_temporary'] = '_mbga';
+			Game.localstorageExtensions['notlogin'] = '';
+	
+	
+	Game.mypageLocalstorageVersion = 3;
+
+	
+	Game.get$ScrollParent = function() {
+		return Game.ua.hasPcgamecontainerIrregularParent() ? $(Game.gameContainer.selector).parent() : $(document);
+	};
+	
+	Game.get$ScrollElem = function() {
+		return Game.ua.hasPcgamecontainerIrregularParent() ? $(Game.gameContainer.selector).parent() : $('html, body');
+	};
+	
+	Game.getZoom = function() {
+		
+		return +$(Game.gameContainer.selector).css('zoom');
+	};
+})();
+</script>
+</head>
+<body class='jssdk'>
+<div id="mobage-game-container" class="mobage-game-container slide-menu" data-show-menubar-width="64" data-position-layout="slide" tabindex="1">
+
+<script>(function() {var EVENT_NAME_WHEN_PF_READY = '';var listener = null;var focusOnGameContainer = function() {document.getElementById(Game.gameContainer.id).focus();listener.removeEventListener(EVENT_NAME_WHEN_PF_READY, focusOnGameContainer);};listener = document;EVENT_NAME_WHEN_PF_READY = 'mobageReady';listener.addEventListener(EVENT_NAME_WHEN_PF_READY, focusOnGameContainer);})();</script>
+
+
+<div id="ready"><script type="application/json" id="json-loading">[{"name": "valentine2024-1", "weight": 1},{"name": "valentine2024-2", "weight": 1},{"name": "valentine2024-3", "weight": 1},{"name": "valentine2024-4", "weight": 1}]</script><div id="img-loading"></div></div><div id="loading"><div class="img-load"></div></div>
+
+
+<div id="wrapper" class="wrapper">
+	<header class="cnt-global-header">
+	<div class="btn-head-mypage" data-href="mypage"></div>
+	<div class="btn-head-top" data-location-href="https://game.granbluefantasy.jp/"></div>
+	<div class="prt-head-current" id="prt-head-current"></div>
+	<div class="btn-head-pop"></div>
+	<div class="btn-head-close"></div>
+</header>
+
+	<div class="pop-global-menu">
+	<div class="prt-global-menu">
+		<div class="prt-global-main">
+			<div class="prt-global-party"></div>
+			
+			<div class="prt-global-enhancement"></div>
+			
+			<div class="prt-global-coopraid"></div>
+
+			
+										
+										<div class="prt-global-gacha free"></div>
+			<div class="prt-global-quest"></div>
+		</div>
+		<div class="prt-global-cover">
+			<div class="btn-global-party" data-cover-name="party" data-location-href="party/index/0/npc/0"></div>
+			<div class="btn-global-enhancement" data-cover-name="enhancement" data-location-href="enhancement/weapon/base"></div>
+			<div class="btn-global-coopraid" data-cover-name="coopraid" data-location-href="coopraid"></div>
+			<div class="btn-global-gacha" data-cover-name="gacha" data-location-href="gacha"></div>
+			<div class="btn-global-quest" data-cover-name="quest" data-location-href="quest"></div>
+		</div>
+
+		<div class="prt-global-sub">
+			<div class="txt-title-profile"></div>
+			<div class="btn-global-sub" data-location-href="profile"><div class="txt-global-profile"></div></div>
+			<div class="btn-global-sub" data-location-href="archive/top"><div class="txt-global-archive"></div></div>
+			<div class="btn-global-sub btn-global-knights" data-location-href=""><div class="txt-global-guild"></div></div>
+		</div>
+
+		<div class="prt-global-sub">
+			<div class="txt-title-item"></div>
+			<div class="btn-global-sub" data-location-href="item"><div class="txt-global-item"></div></div>
+			<div class="btn-global-sub" data-location-href="shop"><div class="txt-global-shop"></div></div>
+			<div class="btn-global-sub" data-location-href="present"><div class="txt-global-present"></div></div>
+		</div>
+
+		<div class="prt-global-sub">
+			<div class="txt-title-list"></div>
+			<div class="btn-global-ex" data-location-href="list"><div class="txt-global-list"></div></div>
+			<div class="btn-global-ex" data-location-href="container"><div class="txt-global-container"></div></div>
+			<div class="btn-global-ex" data-location-href="friend"><div class="txt-global-friend"></div></div>
+			<div class="btn-global-ex" data-location-href="quest/world"><div class="txt-global-world"></div></div>
+		</div>
+
+		<div class="prt-global-ext">
+			<div class="prt-config-balloon">バトルなどの動作が重い時は、設定変更により改善される場合があります。</div>
+			<div class="btn-global-setting" data-location-href="setting"></div>
+			<div class="btn-global-help" data-location-href="help"></div>
+		</div>
+
+		
+
+
+
+
+
+
+
+ <div class="prt-global-banner"><div class="btn-global-banner" data-href="event/godslayer"><img class="img-global-banner" src="https://prd-game-a1-granbluefantasy.akamaized.net/assets/img/sp/banner/events/godslayer18005/banner_event_start_1.png" alt="banner_event_start_1" /></div></div>
+
+ <div class="prt-global-banner"><div class="btn-global-banner" data-href="event/anniversaryteaser006"><img class="img-global-banner" src="https://prd-game-a1-granbluefantasy.akamaized.net/assets/img/sp/banner/events/event_teaser_1143/banner_event_notice_1.png" alt="banner_event_notice_1" /></div></div>
+
+		
+		
+				
+		
+		
+			</div>
+</div>
+
+<script type="text/template" id="tpl-pop-select-airspace"><div class="txt-select-airspace">移動先を選択してください</div><div class="prt-select-airspace"><div class="btn-airspace" data-href="quest/world"><img class="img-airspace" src="https://prd-game-a1-granbluefantasy.akamaized.net/assets/img/sp/menu/btn_airspace/button_airspace_<%= airspaceInfo.airspace_id %>.png" alt="button_airspace_<%= airspaceInfo.airspace_id %>" /></div><div class="btn-airspace" data-href="quest/air_space"><img class="img-airspace" src="https://prd-game-a1-granbluefantasy.akamaized.net/assets/img/sp/menu/btn_airspace/button_airspace_map.png" alt="button_airspace_map" /></div></div></script>
+
+	<div class="anenounce" style="
+		width: 100%;
+		height: 15px;
+		position: absolute;
+		background-color: rgba(0, 0, 0, 0.6);
+		top: 0px;
+		left: 0;
+		z-index: 99999;
+		color: white;
+		display: none;
+	"></div>
+	<div class="contents">
+				<div id="loading_area">
+</div>
+
+	</div>
+	
+	<div id="pop-c-a-i"></div>
+		<footer class="cnt-global-footer"><div class="btn-footer-mypage" data-href="mypage"></div><div class="btn-footer-party" data-href="party/index/0/npc/0"></div><div class="btn-footer-quest" data-href="quest"></div><div class="btn-footer-gacha" data-href="gacha"></div><div class="btn-footer-board" data-href="top"></div></footer><div id="treasure-footer-wrapper"><footer id="treasure-footer" class=""><div class="cnt-treasure-footer"><div class="prt-treasure-footer-setting"><div class="btn-treasure-footer-setting size1" data-size="0"></div><div class="btn-treasure-footer-setting size2" data-size="1"></div><div class="btn-treasure-footer-setting size3" data-size="2"></div><div class="btn-treasure-footer-setting sizefull" data-size="3"></div></div><div class="btn-treasure-footer-back"></div>						<div class="btn-treasure-footer-reload"></div>						<div class="btn-treasure-footer-mypage" data-href="mypage"></div>	<div id="prt-treasure-slider" class="prt-treasure-slider"><ul class="lis-treasures" id="treasure-list" data-treasure-max="18"></ul></div></div></footer><div id="treasure-pop"></div></div><script type="text/template" id="tpl-treasure-list"><% _.each(treasures, function(treasure) { %><% var hasRegistrationNum = +treasure.registration_number > 0, displayNumber = hasRegistrationNum && +treasure.number > 999 ? '999+' : treasure.number %><li class="lis-treasure"><figure class="prt-treasure-wrapper" data-item-id="<%= treasure.item_id %>"><img src="https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/item/article/m/<%= treasure.image %>.jpg" class="img-treasure"><figcaption class="txt-treasure-num"><%= displayNumber %><% if(hasRegistrationNum){ %>/<%= treasure.registration_number %><% } %></figcaption></figure></li><% }); %></script><script type="text/template" id="tpl-pop-body-treasure"><div class="cnt-treasure-footer-confirm" item_id="<%= item_id %>" item_name="<%= name %>"><img class="img-item" src="https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/item/<%= kind %>/s/<%= item_id %>.jpg"><div class="item-name txt-notes"><%= name %></div><div class="item-explain"><%= comment %></div><% if (_.isUndefined(Game.footer) === false) { %><div class="prt-treasure-registration<% if(Game.treasure.isSetMax() && is_display_select_item === false) { print(' max') } %>"><div class="txt-treasure-registration">お気に入り登録はこれ以上できません</div><div class="btn-treasure-registration<% if(is_display_select_item === true) { print(' selected') } %>"></div></div><% } %></div></script><script type="text/template" id="tpl-pop-registration-treasure-num"><div class="prt-treasure-image"><img class="img-treasure-thumbs" src="https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/item/article/m/<%= itemId %>.jpg"></div><div class="txt-treasure-name"><%= itemName %></div><div class="prt-popup-frame"><input type="number" pattern="[0-9]*" min="1" max="999" id="favorite-treasure-num" placeholder="必要数を入力してください"><div class="prt-notes">※設定しなくてもお気に入り登録できます</div></div></script>
+
+	
+
+	
+	<script type="text/template" id="tpl-pop-common-rank-up"><div class="img-player-rankup"></div><div class="txt-rank-new">Rank <%= baseRank %> → <%= newRank %></div><div class="txt-recover-msg">AP・BPが回復しました！</div><div class="prt-rankup-box"><div class="txt-box-title">Rankアップボーナス</div><div class="txt-rankup-info">最大AP <%= baseActionpoint %> → <%= newActionpoint %><br><% if(baseHp < newHp){ %>最大HP ＋<%= newHp - baseHp %><br><% } %><% if(baseFriend < newFriend){ %>フレンド枠数 ＋<%= newFriend - baseFriend %><% } %></div></div><div class="prt-rankup-box"><div class="txt-box-title">獲得JP</div><div class="txt-rankup-info">獲得JP ＋<%= newJobpoint - baseJobpoint %></div><div class="prt-jobpt-possessed">（所持JP <%= newJobpoint %>）</div></div></script><script type="text/template" id="tpl-pop-common-zenith-bonus-open"><div class="prt-bonus-image"><img class="img-bonus-type" src="https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/zenith/assets/ability/<%= id %>.png"></div><div class="txt-bonus-name"><%= name %></div><div class="txt-bonus-comment">Rank<%= need_user_rank %>に達したため<br>「<%= name %>」が強化可能になりました</div></script><script type="text/template" id="tpl-pop-common-zc-up"><div class="img-zc-up"></div><div class="txt-zc-new">Limit Bonus Class <%= baseClass %> → <%= newClass %></div><div class="prt-zc-bonus"><div class="txt-box-title">Limit Bonus Classアップボーナス</div><div class="txt-zc-info">COST <%= baseCost %> → <%= newCost %></div></div></script>
+
+	<script type="text/template" id="tpl-pop-skyscope-achieved-mission"><div class="img-mission-logo"></div><div class="prt-mission-list"><% _.each(missionList, function(mission){ %><div class="prt-mission-list-item"><div class="ico-mission-category-<%= mission.class_type %>"></div><div class="txt-mission-title"><%= mission.title %></div><div class="prt-mission-progress"><% if(mission.is_complete){ %><div class="prt-complete-image"></div><% }else{ %><span class="txt-progress-num"><%= mission.mission_user_count %></span> / <%= mission.mission_count %><% } %></div></div><% }); %></div><% if(overMissionMessage !== ''){ %><div class="txt-over-mission"><%= overMissionMessage %></div><% } %><% if (renownPendant > 0 || prestigePendant > 0 || addRankExp > 0 || rewardList.length > 0){ %><div class="prt-reward-frame"><% if (renownPendant > 0){ %><div class="prt-gain"><div class="ico-mbp">武勲の輝き</div><div class="prt-gain-point">+<%= renownPendant %></div></div><% } %><% if (prestigePendant > 0){ %><div class="prt-gain"><div class="ico-hmbp">栄誉の輝き</div><div class="prt-gain-point">+<%= prestigePendant %></div></div><% } %><% if (addRankExp > 0){ %><div class="prt-gain"><div class="ico-rank"></div><div class="prt-gain-point">+<%= addRankExp %></div></div><% } %><% if (rewardList.length > 0){ %><div class="prt-reward-list"><% _.each(rewardList, function(reward){ %><div class="lis-item"><img class="img-item" src="<%= reward.image %>"><% if (+reward.number > 1) { %><div class="txt-reward-num"><span class="txt-small">x</span><%= reward.number %></div><% } %></div><% }); %></div><% } %><% if (overRewardMessage !== ''){ %><div class="txt-over-reward"><%= overRewardMessage %></div><% } %><% if (rewardList.length > 0){ %><div class="txt-reward-note">※報酬アイテムはプレゼントリストへ送られました</div><% } %></div><% } %></script><script type="text/template" id="tpl-pop-skyscope-achieved-mission-grade-up"><div class="img-grade-up-logo"></div><div>以下のミッションが開放されました！</div><div class="prt-open-mission-list"><% _.each(openMissionList, function(mission){ %><div class="lis-item">・<%= mission.name %> <span class="txt-grade-<%= mission.after_grade %>">Grade<%= mission.after_grade %></span></div><% }); %></div></script>
+
+</div>
+<div id="general-chat" class="app chrome">
+</div>
+
+<script type="text/template" id="tpl-general-chat">
+	<div id="chat-open" class="btn-general-chat chat-mask"></div>
+	<div id="chat-body" class="chat-mask full">
+		<div id="chat-header">
+			<div id="chat-header-left">
+				<div class="prt-chat-header">
+					<div id="chat-mode"></div>
+				</div>
+				<div class="prt-chat-header">
+					<div id="chat-guild" class="btn-general-chat"></div>
+				</div>
+				<div class="prt-chat-header">
+					<div id="chat-coop" class="btn-general-chat"></div>
+				</div>
+				<div class="prt-chat-header">
+					<div id="chat-raid" class="btn-general-chat"></div>
+				</div>
+			</div>
+			<div id="chat-header-right">
+				<div class="prt-chat-header">
+					<div id="chat-switch" class="btn-general-chat"></div>
+				</div>
+				<div class="prt-chat-header">
+					<div id="chat-close" class="btn-general-chat"></div>
+				</div>
+			</div>
+		</div>
+		<div id="chat-content">
+			<div id="chat-log"></div>
+		</div>
+		<div id="chat-footer" class="chat-form chat-stamp">
+			<div class="prt-chat-footer">
+				<div id="chat-close-alter" class="btn-general-chat"></div>
+				<div id="chat-switch-alter" class="btn-general-chat"></div>
+			</div>
+			<div class="prt-chat-footer">
+				<div id="chat-send" class="btn-general-chat"></div>
+				<textarea id="chat-input" class="btn-general-chat" placeholder="テキスト入力"></textarea>
+			</div>
+			<div class="prt-chat-footer">
+				<div id="chat-stamp" class="btn-general-chat"></div>
+			</div>
+		</div>
+	</div>
+	<div id="chat-activenotice" class="btn-general-chat">
+		<div class="active-notice-close btn-general-chat"></div>
+		<div class="active-notice-log"></div>
+	</div>
+</script>
+
+
+<script type="text/template" id="tpl-chat-log">
+	<img class="img-character-log" src="https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/leader/raid_log/<%- userImage %>.png">
+
+	<div class="txt-log">
+		<div class="prt-name-time">
+			<span class="txt-name"><%= nickname %></span> <span class="txt-time"><%- chatTime %></span>
+		</div>
+		
+		<div class="prt-comment<% if(typeof logType !== 'undefined' && +logType === 2){ %> activity<% } %>">
+			<%= commentData.content %>
+		</div>
+	</div>
+</script>
+
+
+
+<div id="pop-chat"></div>
+<script type="text/template" id="popup">
+	<div class="pop-usual <%= className %>" data-token="">
+	<div class="prt-popup-header<% if(typeof maskSubMenu !== 'undefined' && maskSubMenu){ %>-sm<% } %><% if(Game.lang === 'ja' && typeof title !== 'undefined' && title && title.length > 22) { %> txt-small<% } %>"><%= title %></div>
+	<div class="prt-popup-body<% if(typeof maskSubMenu !== 'undefined' && maskSubMenu){ %>-sm<% } %>">
+		<div class="txt-popup-body<% if(typeof maskSubMenu !== 'undefined' && maskSubMenu){ %>-sm<% } %>"><%= body %></div>
+		<% if (btnTreasure === 1) { %>
+			<div class="prt-treasure-registration">
+				<div class="txt-treasure-registration">お気に入り登録はこれ以上できません</div>
+				<div class="btn-treasure-registration"></div>
+			</div>
+		<% } %>
+	</div>
+	<div class="prt-popup-footer<% if(typeof maskSubMenu !== 'undefined' && maskSubMenu){ %>-sm<% } %>">
+		<% if(flagBtnCancel==1){ print("<div class='btn-usual-cancel" + (btnCancelClassName ? " "+btnCancelClassName : "") + (arguments[0].btnCancelText ? " hide-common-text" : "") + "'>" + (arguments[0].btnCancelText || '') + "</div>") } %>
+		<% if(flagBtnClose==1){ print("<div class='btn-usual-close" + (btnCloseClassName ? " "+btnCloseClassName : "") + (arguments[0].btnCloseText ? " hide-common-text" : "") + "'>" + (arguments[0].btnCloseText || '') + "</div>") } %>
+		<% if(flagBtnOk==1){ print("<div class='btn-usual-ok" + (btnOkClassName ? " "+btnOkClassName : "") + (arguments[0].btnOkText ? " hide-common-text" : "")  + "'>" + (arguments[0].btnOkText || '') + "</div>") } %>
+	</div>
+</div>
+
+</script>
+
+
+<script type="text/template" id="tpl-stamp">
+	<div class="prt-stamp-image">
+	<div class="prt-stamp-wrapper">
+		<% var count = 0; %>
+		<% var RECENT_STAMP_PER_LINE = 5; %>
+		<% var RECENT_STAMP_PER_PAGE = 20; %>
+		<% var STAMP_LENGTH_MAX = 140; %>
+		<% var max = _.size(stampList) + recentStampMax; %>
+		<% var mask = mask || false; %>
+		<% if (showRecentStamps) { %><% for(var i = 0; i < recentStampMax; i++) { %><% if(count % RECENT_STAMP_PER_PAGE === 0) { %><div class="lis-stamp-slider"><div class="recent-stamps<% if(mask) { %> masked<%}%>"><div class="txt-heading">最近使ったスタンプ</div><% } %><% if(count % RECENT_STAMP_PER_LINE === 0) { %><div class="lis-stamp-row"><% } %><% if(recentStamps[i] !== void 0 && recentStamps[i].path !== void 0 && recentStamps[i].id !== void 0) { %><div class="lis-stamp"><img src="<%= recentStamps[i].path %>" alt="" class="img-stamp" data-stamp-id='<%= recentStamps[i].id %>'><% if(typeof(showIcoVoiceStamp) !== 'undefined' && showIcoVoiceStamp === true && recentStamps[i].stamp_voice) { %><div class="ico-voice-stamp"></div><% } %></div><% } else { %><div class="lis-stamp empty"></div><% } %><% count++; %><% if(count % RECENT_STAMP_PER_LINE === 0) { %></div><% } %><% if(count === recentStampMax) { %></div><% } %><% if(count % RECENT_STAMP_PER_PAGE === 0 || count === max) { %></div><% } %><% } %><% } %>
+		<% _.each(stampList, function(n){ %>
+			<% if(count % RECENT_STAMP_PER_PAGE === 0) { %>
+				<div class="lis-stamp-slider">
+			<% } %>
+			<% if(count % RECENT_STAMP_PER_LINE === 0) { %>
+				<div class="lis-stamp-row">
+			<% } %>
+
+			<div class="lis-stamp selectable numbered">
+				<img src="<%= n.path %>" alt="" class="img-stamp" data-stamp-id='<%= n.id %>' data-stamp-priority='<%= n.priority %>'>
+				<% if(n.priority <= STAMP_LENGTH_MAX) { %>
+					<div class="order-priority"><%= n.priority %></div>
+				<% } %>
+				<% if(typeof(showIcoVoiceStamp) !== 'undefined' && showIcoVoiceStamp === true && n.stamp_voice) { %><div class="ico-voice-stamp"></div><% } %>
+			</div>
+
+			<% count++; %>
+			<% if(count % RECENT_STAMP_PER_LINE === 0) { %>
+				</div>
+			<% } %>
+			<% if(count % RECENT_STAMP_PER_PAGE === 0 || count === max){ %>
+				</div>
+			
+			<% } else if(showRecentStamps === false && count === stampList.length){ %>
+				</div>
+			<% } %>
+		<% }); %>
+		<% if (!enabledRecentStamps) { %>
+			<% for(var i = 0; i < RECENT_STAMP_PER_LINE; i++) { %>
+				<% if(count % RECENT_STAMP_PER_PAGE === 0) { %><div class="lis-stamp-slider"><% } %>
+				<% if(count % RECENT_STAMP_PER_LINE === 0) { %>
+					<div class="lis-stamp-row recent-stamps space-filler">
+						<div class="txt-heading">最近使ったスタンプ</div>
+				<% } %>
+
+				<div class="lis-stamp empty"></div>
+
+				<% count++; %>
+				<% if(count % RECENT_STAMP_PER_LINE === 0) { %></div><% } %>
+				<% if(count % RECENT_STAMP_PER_PAGE === 0 || count === max){ %></div><% } %>
+			<% } %>
+		<% } %>
+	</div>
+</div>
+
+</script>
+
+
+<script type="text/template" id="tpl-chat-pop">
+	<div class="txt-message">
+		新しいコメントを入力してください<br>
+		コメントは<%= count_max %>文字までです
+	</div>
+	<% if(errflag){ %>
+		<div class="txt-err-msg">
+		<span><%= msg %></span>
+		</div>
+	<% } %>
+	<textarea id="frm-message" class="frm-message" cols="14" rows="3" wrap="soft"><%= inputText %></textarea>
+	<div class="mes-counter"></div>
+	<div class="prt-pop-attention">
+		<div class="txt-attention-title"></div>
+		<div class="txt-attention-contents">
+			絵文字を使用することはできません。<br>
+			本名やメールアドレス、電話番号などの個人情報や個人の特定に繋がる情報の入力はお控えください。
+		</div>
+	</div>
+</script>
+
+<div id="submenu">
+	<div id="prt-submenu-contents">
+		<div id="cnt-submenu-contents"></div>
+		<div id="loading-sm"></div>
+	</div>
+	<div id="cnt-submenu-navi-vertical">
+		<div class="btn-sub-category btn-sub-chat" data-new-chat-num="680231711"><div class="ico-exclamation"></div></div>
+		<div class="btn-sub-category btn-sub-setting"><div class="ico-exclamation"></div></div>
+		<div class="btn-sub-category btn-sub-help" data-new-help-num="1708441200"><div class="ico-exclamation"></div></div>
+		<div class="btn-sub-category btn-sub-comic" data-new-comic-num="2525"><div class="ico-exclamation"></div></div>
+		<div class="btn-sub-category btn-sub-beginnercomic" data-new-beginnercomic-num="15"><div class="ico-exclamation"></div></div>
+		<div class="btn-submenu-control"></div>
+			</div>
+	<div class="mask_submenu"></div> 
+	<div id="submenu-pop"></div>
+	<div id="submenu-pop-chat"></div>
+</div>
+
+
+<script type="text/template" id="tpl-submenu-chat" data-title-restrict="利用制限" data-title-stamp="チャット(スタンプ)">
+	<% if(_.isEmpty(message) === false) { %>
+		<%= message %>
+	<% } else { %>
+		エラーにより送信できませんでした。
+	<% } %>
+</script>
+<div class="mask"></div>
+<div id="opaque-mask"></div>
+
+<div id="pop-force"></div>
+
+<script src="https://prd-game-a3-granbluefantasy.akamaized.net/assets/1708586161/js/lib/require.js" crossorigin="anonymous"></script>
+<script src="https://prd-game-a3-granbluefantasy.akamaized.net/assets/1708586161/js/config.js"></script>
+<script>
+require.config({ baseUrl: Game.jsUri });
+
+
+var reportInterval = 1000;
+var previousTime = 0;
+Game.reportError = function(msg, url, line, column, err, callback) {
+	var currentTime = Date.now();
+	if ((currentTime - previousTime) < reportInterval) return;
+	previousTime = currentTime;
+	try {
+		var http = new XMLHttpRequest();
+		http.onreadystatechange = function() {
+			if (http.readyState === XMLHttpRequest.prototype.DONE || http.readyState === XMLHttpRequest.prototype.UNSENT) {
+				if (callback) { callback(http); }
+			}
+		};
+		http.open('POST', Game.baseUri + 'rest/error/js');
+		http.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		var data = 'message=' + encodeURIComponent(msg);
+		if (url) {
+			data += '&url=' + encodeURIComponent(url);
+		}
+		if (line) {
+			data += '&line=' + encodeURIComponent(line);
+		}
+		if (column) {
+			data += '&column=' + encodeURIComponent(column);
+		}
+		if (err && err.stack) {
+			data += ('&stack=' + encodeURIComponent(err.stack));
+		}
+		data += '&href=' + window.location.href;
+		http.send(data);
+	} catch (e) {
+		console.error(e);
+	}
+};
+window.onerror = function(msg, url, line, column, err) {
+	Game.reportError(msg, url, line, column, err);
+	return true;
+};
+requirejs.onError = function(e) {
+	var type = e.requireType;
+	var alertMessage = null, errorMessage = 'module ' + type + ' [' + (e.requireModules || []).join(',') + ']: ' + e.message;
+	var shouldReload = false;
+	var waitTime = 0;
+	switch (type) {
+		case 'timeout':
+			alertMessage = Game.message.connectionError;
+			break;
+		case 'scripterror':
+			
+					case 'importscripts':
+			alertMessage = Game.message.update;
+			shouldReload = true;
+			break;
+	}
+	setTimeout(function() {
+		Game.reportError(errorMessage, null, null, null, null, function() {
+			if (alertMessage) { alert(alertMessage); }
+			if (shouldReload) { window.location.reload(); }
+		});
+	}, waitTime);
+};
+
+
+var requirejs_createNode = requirejs.createNode;
+requirejs.createNode = function() { var node = requirejs_createNode.apply(this, arguments); node.setAttribute('crossorigin', 'anonymous'); return node; };
+Game.submenu = {};
+
+Game.footer = {};
+
+
+
+Game.shellAppFlag = false;
+	require(['app']);
+	
+console.assert=console.error=console.log=console.time=console.timeEnd=console.warn=function(){};
+
+
+
+
+</script>
+
+
+<script type="text/template" id="exception-error-popup">
+	<div class="pop-usual <%= className %>" data-token="">
+	<div class="prt-popup-header<% if(typeof maskSubMenu !== 'undefined' && maskSubMenu){ %>-sm<% } %><% if(Game.lang === 'ja' && typeof title !== 'undefined' && title && title.length > 22) { %> txt-small<% } %>"><%= title %></div>
+	<div class="prt-popup-body<% if(typeof maskSubMenu !== 'undefined' && maskSubMenu){ %>-sm<% } %>">
+		<div class="txt-popup-body<% if(typeof maskSubMenu !== 'undefined' && maskSubMenu){ %>-sm<% } %>"><%= body %></div>
+		<% if (btnTreasure === 1) { %>
+			<div class="prt-treasure-registration">
+				<div class="txt-treasure-registration">お気に入り登録はこれ以上できません</div>
+				<div class="btn-treasure-registration"></div>
+			</div>
+		<% } %>
+	</div>
+	<div class="prt-popup-footer<% if(typeof maskSubMenu !== 'undefined' && maskSubMenu){ %>-sm<% } %>">
+		<% if(flagBtnCancel==1){ print("<div class='btn-usual-cancel" + (btnCancelClassName ? " "+btnCancelClassName : "") + (arguments[0].btnCancelText ? " hide-common-text" : "") + "'>" + (arguments[0].btnCancelText || '') + "</div>") } %>
+		<% if(flagBtnClose==1){ print("<div class='btn-usual-close" + (btnCloseClassName ? " "+btnCloseClassName : "") + (arguments[0].btnCloseText ? " hide-common-text" : "") + "'>" + (arguments[0].btnCloseText || '') + "</div>") } %>
+		<% if(flagBtnOk==1){ print("<div class='btn-usual-ok" + (btnOkClassName ? " "+btnOkClassName : "") + (arguments[0].btnOkText ? " hide-common-text" : "")  + "'>" + (arguments[0].btnOkText || '') + "</div>") } %>
+	</div>
+</div>
+
+</script>
+
+
+
+
+
+
+<script type='text/javascript'>
+(function() {
+	
+	var clientData = window.clientData || {};
+	clientData.clientId = '12016007-2';
+	clientData.redirectUri = 'https://game.granbluefantasy.jp/authentication';
+	clientData.state = 'mobage-connect_65dbe40b44cb77.81074055';
+	clientData.sessionState = '63bffc6de9441c89ec9a07165bad0ccf72dd8bd6fecdc3c72c85f7eb249cf5f7';
+	window.clientData = clientData;
+	require(['lib/common'], function() {
+		require(['lib/mobage-jssdk'], function(JSSDK) {
+			var isBattle = (new RegExp('#raid')).test(location.hash);
+			JSSDK.requireOnceJSSDKClient('https://cdn-connect.mobage.jp/jssdk/mobage-jssdk-client.3.7.9.min.js');
+			JSSDK.mobageInit({
+				clientId:       "12016007-2",
+				redirectUri:    "https://game.granbluefantasy.jp/authentication",
+				contentOrigin:  "https://game.granbluefantasy.jp",
+				gameEntryPoint: Game.gameContainer.id,
+				showMenubar:    true,
+			});
+							JSSDK.mobageSubscribeLogin('mobage-connect_65dbe40b44cb77.81074055');
+				
+									
+					isBattle || JSSDK.mobageGetConnectedStatus({ state: 'mobage-connect_65dbe40b44cb77.81074055' }).done(function(result) {
+					
+											if ('63bffc6de9441c89ec9a07165bad0ccf72dd8bd6fecdc3c72c85f7eb249cf5f7' !== (result.response||{}).session_state) {
+							JSSDK.tryLogin({ state: 'mobage-connect_65dbe40b44cb77.81074055', redirectUri: 'https://game.granbluefantasy.jp/authentication' }, result);
+						}
+					
+										}).fail(function(err) {
+					
+					
+											JSSDK.logout();
+					
+										});
+														JSSDK.mobageSubscribeLogout('63bffc6de9441c89ec9a07165bad0ccf72dd8bd6fecdc3c72c85f7eb249cf5f7');
+					});
+	});
+})();
+</script>
+
+
+
+</div>
+
+
+
+</body>
+</html>
