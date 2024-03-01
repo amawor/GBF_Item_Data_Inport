@@ -1,0 +1,12 @@
+https://game.granbluefantasy.jp/#item
+https://game.granbluefantasy.jp/#result_multi/detail/36400359560/1/0/0
+https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
+chrome://extensions/
+https://kkplay3c.net/copy-all-urls/
+https://chromewebstore.google.com/detail/copy-all-urls/djdmadneanknadilpjiknlnanaolmbfk
+chrome-extension://jifpbeccnghkjeaalbbjmodiffmgedin/crxviewer.html?crx=https%3A%2F%2Fclients2.google.com%2Fservice%2Fupdate2%2Fcrx%3Fresponse%3Dredirect%26os%3Dwin%26arch%3Dx86-64%26os_arch%3Dx86-64%26nacl_arch%3Dx86-64%26prod%3Dchromiumcrx%26prodchannel%3Dunknown%26prodversion%3D9999.0.9999.0%26acceptformat%3Dcrx2%2Ccrx3%26x%3Did%253Ddjdmadneanknadilpjiknlnanaolmbfk%2526uc
+https://blog.poychang.net/chrome-extension-source-code-viewer/
+https://chromewebstore.google.com/detail/chrome-extension-source-v/jifpbeccnghkjeaalbbjmodiffmgedin
+chrome-extension://jifpbeccnghkjeaalbbjmodiffmgedin/crxviewer.html?crx=https%3A%2F%2Fclients2.google.com%2Fservice%2Fupdate2%2Fcrx%3Fresponse%3Dredirect%26os%3Dwin%26arch%3Dx86-64%26os_arch%3Dx86-64%26nacl_arch%3Dx86-64%26prod%3Dchromecrx%26prodchannel%3Dunknown%26prodversion%3D9999.0.9999.0%26acceptformat%3Dcrx2%2Ccrx3%26x%3Did%253Djifpbeccnghkjeaalbbjmodiffmgedin%2526uc&zipname=jifpbeccnghkjeaalbbjmodiffmgedin.zip
+https://chromewebstore.google.com/detail/find-sci-paper/ocofgmnfmjndinnmdimpmijogpaljmal
+chrome://newtab/

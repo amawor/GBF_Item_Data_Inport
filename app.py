@@ -4,8 +4,9 @@ from flask import Flask, request, redirect, url_for
 from werkzeug.utils import secure_filename
 from bs4 import BeautifulSoup
 import pandas as pd
+import nums_from_string as nfs
 
-UPLOAD_FOLDER = 'C:\PYTHON\GBF_Item_Data_Inport'
+UPLOAD_FOLDER = r'C:\Users\leemi\Documents\GBF_Item_Data_Inport'
 ALLOWED_EXTENSIONS = set(['html'])
 
 app = Flask(__name__)
@@ -23,7 +24,7 @@ def getData(filename):
     ids=[]
     qs=[]
     for item in items:
-        ids.append(item.find('img')['src'].replace('https://prd-game-a-granbluefantasy.akamaized.net/assets/img/sp/assets/item/article/s/','').replace('.jpg',''))
+        ids.append(nfs.get_nums(item.find('img')['src'])[0])
         qs.append(item.getText().strip())
     dict={'id':ids,'quantity':qs}
     df=pd.DataFrame(dict)
@@ -47,7 +48,6 @@ def upload_file():
     </form>
     '''
     
-from flask import send_from_directory
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
