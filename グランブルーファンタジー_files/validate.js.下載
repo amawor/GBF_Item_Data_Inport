@@ -1,0 +1,1 @@
+define(["jquery","underscore"],function(a,b){var c=999,d=function(a){var d=a;return d?(d=d.replace(/[０-９]/g,function(a){return String.fromCharCode(a.charCodeAt(0)-65248)}),d=+d,b.isNaN(+d)===!0||1>d?0:(d>c&&(d=c),d)):0};return{validateTreasureNum:d}});

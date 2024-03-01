@@ -1,0 +1,1 @@
+require(["lib/common"],function(){require(["jquery","underscore","util/ajax"],function(a,b,c){require(["lib/locallib"],function(){require(["view/submenu/index"],function(a){Game.submenu.mainView=new a})})})});

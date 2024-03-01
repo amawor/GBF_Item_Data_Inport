@@ -1,0 +1,1 @@
+define(["backbone","underscore","collection/data"],function(a,b,c){var d=c.extend({page:1,urlMethod:"",url:function(){return Game.baseUri+"item/"+this.urlMethod+"/"+this.page},initialize:function(a,b){this.listenTo(this,"request",this._request),c.prototype.initialize.apply(this)},parse:function(a,b){return a},_request:function(a,b,c){},_sync:function(a,b,c){}});return d});

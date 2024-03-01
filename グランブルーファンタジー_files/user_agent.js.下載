@@ -1,0 +1,1 @@
+define({model:["SO-04E","SO-01F","P-03E","SOL22","SOL23","LGL22"],shellAppRestoreLayerType:["SBM203SH","SBM302SH","SBM303SH","LGL22","L-01F","F-03F","F-04E","304SH","Nexus 7","SH-05F","SO-03F","SOL24","SonySO-02E","ASUS_T00P"]});
