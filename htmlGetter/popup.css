@@ -1,0 +1,18 @@
+body{
+    width: 115px;
+}
+.hello{
+    color: #333;
+    font-size: 30px;
+}
+
+#copyButton{
+    color:rgb(255, 255, 255);
+    background-color: #333;
+    width: 115px;
+}
+#uploadButton{
+    color:rgb(255, 255, 255);
+    background-color: #333;
+    width: 115px;
+}

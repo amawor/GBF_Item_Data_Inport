@@ -1,1 +1,0 @@
-define(["underscore"],function(a){a.mixin({chunk:function(a,b){for(var c=[],d=0,e=a.length;e>d;d+=b)c.push(a.slice(d,d+b));return c}})});

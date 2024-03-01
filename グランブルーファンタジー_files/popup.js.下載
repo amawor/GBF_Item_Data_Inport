@@ -1,1 +1,0 @@
-define(["view/popup"],function(a){var b=a.extend({el:"#treasure-pop"});return b});

@@ -4,7 +4,7 @@
     "name": "Copy HTML",
     "version": "1.0",
     "description": "Easily copy HTML source code of web pages.",
-    "permissions": ["activeTab", "clipboardWrite"],
+    "permissions": ["activeTab", "clipboardWrite","tabs", "clipboardRead"],
     "background": {
       "service_worker": "background.js"
     },
