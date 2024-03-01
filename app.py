@@ -38,9 +38,13 @@ def save_data_to_json(data):
         with open(app.config['JSON_FILE'], 'w') as f:
             #print(data)
             json.dump(datas, f, indent=4)
-            return 'Data saved to ' + app.config['JSON_FILE']
+            return app.config['JSON_FILE']
     else:
         return 'No data found'
+    
+def outputData(data):
+    
+    return data
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_file():
