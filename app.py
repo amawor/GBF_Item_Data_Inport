@@ -9,6 +9,7 @@ import pandas as pd
 import os
 from flask_cors import CORS
 import nums_from_string as nfs
+import requests
 
 
 app = Flask(__name__)
