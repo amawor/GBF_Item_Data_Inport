@@ -4,6 +4,7 @@
 cd "the location of the file"
 flask run
 ```
-3. go to https://game.granbluefantasy.jp/#item
-4. F12 -> ctrl+a -> ctrl+c and past it on your .html file (or just press ctrl+s, but it might download lots of .png files)
-5. upload it on http://localhost:5000
+3. chrome->extensions->打開開發人員選項->載入未封裝項目->選擇htmlgetter資料夾載入
+4. go to https://game.granbluefantasy.jp/#item
+5. click the extension->upload html
+6. your asset will automatically generated into excel
