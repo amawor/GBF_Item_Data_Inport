@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "Copy and Send HTML",
+    "version": "1.0",
+    "description": "Copy and send HTML source code of web pages.",
+    "permissions": ["activeTab", "clipboardWrite", "scripting","tabs"],
+    "background": {
+      "service_worker": "background.js"
+    },
+    "action": {
+      "default_popup": "popup.html"
+    }
+}
