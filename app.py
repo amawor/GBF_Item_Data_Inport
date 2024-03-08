@@ -49,7 +49,7 @@ def search(json_str, no):
 def outputData(filename):
     wb = openpyxl.load_workbook('GBF素材需求量 (1).xlsx')     # 開啟 Excel 檔案
 
-    s1 = wb['工作表6']
+    s1 = wb['所持一覽']
 
     jsonFile = open(filename+ '_yan.json','r')
     f =  jsonFile.read()   # 要先使用 read 讀取檔案
@@ -59,7 +59,7 @@ def outputData(filename):
         data = json.load(f)
         for i in range(data.__len__()):
             s1['B'+(str(i+1))].value=search(json.dumps(a), data[i])[0]
-    wb.save(filename+'.xlsx')  # 存檔
+    wb.save('filename+'.xlsx)  # 存檔
     return 'success'
 
 @app.route('/', methods=['GET', 'POST'])
