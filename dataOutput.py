@@ -25,6 +25,7 @@ for i in range(et.__len__()):
     temp={'name':data['十天眾'][i]['name']}
     print(data['十天眾'][i]['name'])
     lv=int(et[i])
+    l=[]
     while(lv<150):
         tn=[]
         td=[]
@@ -37,3 +38,7 @@ for i in range(et.__len__()):
             tn.append({e[j]['name']})
             td.append({int(e[j]['demand'])-search(json.dumps(item),e[j]['id'])})
         tl={'name':tn,'demand':td}
+        l.append(tl)
+    temp.update({str(lv):l})
+    lack.update({data['十天眾'][i]['name']:temp})
+print(lack)
